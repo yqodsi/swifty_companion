@@ -2,32 +2,55 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ScreenContainer } from "react-native-screens";
-import { SafeAreaView } from 'react-navigation';
 import Home from "./components/Home";
 import About from "./components/About";
-import axios from "axios";
-import { useEffect } from "react";
+
+import {
+  useFonts,
+  Ubuntu_300Light,
+  Ubuntu_300Light_Italic,
+  Ubuntu_400Regular,
+  Ubuntu_400Regular_Italic,
+  Ubuntu_500Medium,
+  Ubuntu_500Medium_Italic,
+  Ubuntu_700Bold,
+  Ubuntu_700Bold_Italic,
+} from "@expo-google-fonts/ubuntu";
 
 const Stack = createNativeStackNavigator();
-
+// SafeAreaView is a component that wraps the content of the screen and adjusts it for the notches and rounded corners of the iPhone X and other newer devices.
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    Ubuntu_300Light,
+    Ubuntu_300Light_Italic,
+    Ubuntu_400Regular,
+    Ubuntu_400Regular_Italic,
+    Ubuntu_500Medium,
+    Ubuntu_500Medium_Italic,
+    Ubuntu_700Bold,
+    Ubuntu_700Bold_Italic,
+  });
+  console.log(fontsLoaded);
+  if (!fontsLoaded) {
+    return <View style={styles.container} />;
+  }
   return (
-    
-    
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Group
-          screenOptions={{
-            headerStyle: { backgroundColor: "dodgerblue" },
-            headerTitleAlign: "center",
-            title: "42",
-          }}
-        >
+  
+    <NavigationContainer style={{ fontFamily: 'Ubuntu_300Light_Italic', fontSize: 16, backgroundColor: "red" }}>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: "white" },
+          headerTitleAlign: "center",
+          title: "69",
+          fontFamily: "Ubuntu",
+        }}
+      >
+        <Stack.Group>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="About" component={About} />
         </Stack.Group>
       </Stack.Navigator>
+      <StatusBar backgroundColor="white" style="dark" />
     </NavigationContainer>
   );
 }
@@ -60,5 +83,15 @@ const styles = StyleSheet.create({
   navbarTitle: {
     fontSize: 24,
     fontWeight: "bold",
+  },
+});
+
+export const globalStyles = StyleSheet.create({
+  text: {
+    // fontFamily: "ubuntu",
+    fontFamily: "ubuntu",
+    fontSize: 24,
+    flex: 1,
+    backgroundColor: "#fcf",
   },
 });
