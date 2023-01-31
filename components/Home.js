@@ -1,33 +1,27 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { HELLO } from "@env";
+import React, { useContext } from "react";
+import MyContext from "../contexts/";
+import { globalStyles } from "../App";
 
 const Home = ({ navigation }) => {
+  const { data, setData } = useContext(MyContext);
+
   return (
-    
-      <View style={styles.container}>
-        {/* <Image
-        source={require('./google-logo.png')}
-        style={styles.logo}
-      /> */}
-        <View style={styles.wrapper}>
-          <Text style={styles.title}>Login to 42</Text>
-          <Text style={styles.description}>
-            Log in to access your Google account and all its features.
-          </Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate("About");
-            }}
-          >
-            <Text style={styles.buttonText}>42</Text>
-          </TouchableOpacity>
-          <Text style={styles.footer}>
-            By logging in, you agree to our terms of service and privacy policy.
-          </Text>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.wrapper}>
+        <Text style={styles.title}>Login to 42</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("About");
+          }}
+        >
+          <Text style={styles.buttonText}>42</Text>
+        </TouchableOpacity>
+        <Text style={styles.footer}>made with ❤️ by yqodsi</Text>
       </View>
-  
+    </View>
   );
 };
 
@@ -36,43 +30,55 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  logo: {
-    width: 128,
-    height: 128,
-    marginBottom: 32,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  description: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 32,
-  },
-  button: {
-    backgroundColor: "#333",
-    paddingVertical: 10,
-    paddingHorizontal: 50,
-    borderRadius: 4,
-  },
-  buttonText: {
-    fontSize: 16,
-    color: "#fff",
-  },
-  footer: {
-    fontSize: 12,
-    color: "#666",
-    marginTop: 16,
+    // backgroundColor: "#E9E8E8",
   },
   wrapper: {
-    width: "60%",
+    width: "80%",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    // color: "#fff",
+    marginBottom: 16,
+    fontFamily: "Ubuntu_700Bold",
+  },
+  description: {
+    fontSize: 16,
+    // color: "#fff",
+    textAlign: "center",
+    marginBottom: 32,
+    fontFamily: "Ubuntu_400Regular",
+  },
+  button: {
+    // backgroundColor: "#333",
+    paddingVertical: 10,
+    paddingHorizontal: 50,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: "#333",
+    // shadowColor: "#333",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    // elevation: 5,
+  },
+  buttonText: {
+    fontSize: 16,
+    // color: "#fff",
+    fontFamily: "Ubuntu_700Bold",
+  },
+  footer: {
+    fontSize: 12,
+    // color: "#fff",
+    marginTop: 30,
+    fontFamily: "Ubuntu_400Regular",
+    textAlign: "center", // added line
   },
 });
 

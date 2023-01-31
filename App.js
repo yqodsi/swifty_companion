@@ -1,9 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet, Text, View, useColorScheme } from "react-native";
+import { NavigationContainer,DefaultTheme, DarkTheme, } from "@react-navigation/native";
+import {
+  createNativeStackNavigator,
+  
+} from "@react-navigation/native-stack";
 import Home from "./components/Home";
 import About from "./components/About";
+import { useState } from "react";
+import MyContext from "./contexts/";
 
 import {
   useFonts,
@@ -16,10 +21,20 @@ import {
   Ubuntu_700Bold,
   Ubuntu_700Bold_Italic,
 } from "@expo-google-fonts/ubuntu";
-
+// const MyTheme = {
+//   ...DefaultTheme,
+//   colors: {
+//     ...DefaultTheme.colors,
+//     primary: "rgb(255, 45, 85)",
+//     text: "#000",
+//     background: "#E9E8E8",
+//   },
+// };
 const Stack = createNativeStackNavigator();
 // SafeAreaView is a component that wraps the content of the screen and adjusts it for the notches and rounded corners of the iPhone X and other newer devices.
 export default function App() {
+  const scheme = useColorScheme();
+  const [data, setData] = useState("");
   let [fontsLoaded] = useFonts({
     Ubuntu_300Light,
     Ubuntu_300Light_Italic,
@@ -35,23 +50,23 @@ export default function App() {
     return <View style={styles.container} />;
   }
   return (
-  
-    <NavigationContainer style={{ fontFamily: 'Ubuntu_300Light_Italic', fontSize: 16, backgroundColor: "red" }}>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: "white" },
-          headerTitleAlign: "center",
-          title: "69",
-          fontFamily: "Ubuntu",
-        }}
-      >
-        <Stack.Group>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="About" component={About} />
-        </Stack.Group>
-      </Stack.Navigator>
-      <StatusBar backgroundColor="white" style="dark" />
-    </NavigationContainer>
+    <MyContext.Provider value={{ data, setData }}>
+      <NavigationContainer theme={scheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: "#E9E8E8" },
+            headerTitleAlign: "center",
+            title: "69",
+          }}
+        >
+          <Stack.Group>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="About" component={About} />
+          </Stack.Group>
+        </Stack.Navigator>
+        <StatusBar backgroundColor="white" style="dark" />
+      </NavigationContainer>
+    </MyContext.Provider>
   );
 }
 
@@ -88,10 +103,10 @@ const styles = StyleSheet.create({
 
 export const globalStyles = StyleSheet.create({
   text: {
-    // fontFamily: "ubuntu",
-    fontFamily: "ubuntu",
-    fontSize: 24,
+    fontFamily: "Ubuntu_400Regular",
     flex: 1,
-    backgroundColor: "#fcf",
+    // alignItems: "center",
+    fontSize: 24,
+    justifyContent: "center",
   },
 });
