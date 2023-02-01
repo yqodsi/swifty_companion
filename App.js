@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, useColorScheme } from "react-native";
+import { StyleSheet, Text, View, useColorScheme, Button } from "react-native";
 import { NavigationContainer,DefaultTheme, DarkTheme, } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
@@ -21,20 +21,33 @@ import {
   Ubuntu_700Bold,
   Ubuntu_700Bold_Italic,
 } from "@expo-google-fonts/ubuntu";
-// const MyTheme = {
-//   ...DefaultTheme,
-//   colors: {
-//     ...DefaultTheme.colors,
-//     primary: "rgb(255, 45, 85)",
-//     text: "#000",
-//     background: "#E9E8E8",
-//   },
-// };
+
 const Stack = createNativeStackNavigator();
-// SafeAreaView is a component that wraps the content of the screen and adjusts it for the notches and rounded corners of the iPhone X and other newer devices.
+const LightTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#6200EE",
+    background: "#FFFFFF",
+    card: "#FFFFFF",
+    text: "#00dd",
+  },
+};
+const DorkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    primary: "#03DAC6",
+    background: "#121212",
+    card: "#121212",
+    text: "red",
+  },
+};
+
 export default function App() {
   const scheme = useColorScheme();
   const [data, setData] = useState("");
+  const [theme, setTheme] = useState(scheme === "dark" ? DorkTheme : LightTheme);
   let [fontsLoaded] = useFonts({
     Ubuntu_300Light,
     Ubuntu_300Light_Italic,
@@ -45,19 +58,25 @@ export default function App() {
     Ubuntu_700Bold,
     Ubuntu_700Bold_Italic,
   });
-  console.log(fontsLoaded);
+
   if (!fontsLoaded) {
     return <View style={styles.container} />;
   }
+
+  const toggleTheme = () => {
+    setTheme(theme === DorkTheme ? DefaultTheme : DorkTheme);
+  };
   return (
     <MyContext.Provider value={{ data, setData }}>
-      <NavigationContainer theme={scheme === "dark" ? DarkTheme : DefaultTheme}>
+      <NavigationContainer theme={theme}>
         <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "#E9E8E8" },
-            headerTitleAlign: "center",
-            title: "69",
-          }}
+     screenOptions={({ route }) => ({
+      headerTitleAlign: "center",
+      headerRight: route.name === 'About' ? () => (
+        <Button title={theme === DorkTheme ? "Light" : "Dark"} onPress={toggleTheme} />
+      ) : null,
+      title: "69",
+    })}
         >
           <Stack.Group>
             <Stack.Screen name="Home" component={Home} />

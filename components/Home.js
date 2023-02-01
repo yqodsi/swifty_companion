@@ -3,7 +3,11 @@ import { HELLO } from "@env";
 import React, { useContext } from "react";
 import MyContext from "../contexts/";
 import { globalStyles } from "../App";
-
+import axios from "axios";
+const getData = async () => {
+  const res = await axios.get("https://jsonplaceholder.typicode.com/todos/1");
+  console.log("rsss", res.data);
+};
 const Home = ({ navigation }) => {
   const { data, setData } = useContext(MyContext);
 
@@ -11,13 +15,16 @@ const Home = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Text style={styles.title}>Login to 42</Text>
+        {/* <Image source={require("../assets/42_Logo.svg")} widt /> */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
             navigation.navigate("About");
           }}
         >
-          <Text style={styles.buttonText}>42</Text>
+          <Text style={styles.buttonText} onPress={getData}>
+            42
+          </Text>
         </TouchableOpacity>
         <Text style={styles.footer}>made with ❤️ by yqodsi</Text>
       </View>
@@ -41,13 +48,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    // color: "#fff",
+    color: "#fff",
     marginBottom: 16,
     fontFamily: "Ubuntu_700Bold",
   },
   description: {
     fontSize: 16,
-    // color: "#fff",
+    color: "#fff",
     textAlign: "center",
     marginBottom: 32,
     fontFamily: "Ubuntu_400Regular",
@@ -55,7 +62,7 @@ const styles = StyleSheet.create({
   button: {
     // backgroundColor: "#333",
     paddingVertical: 10,
-    paddingHorizontal: 50,
+    paddingHorizontal: 60,
     borderRadius: 4,
     borderWidth: 2,
     borderColor: "#333",
@@ -69,13 +76,13 @@ const styles = StyleSheet.create({
     // elevation: 5,
   },
   buttonText: {
-    fontSize: 16,
-    // color: "#fff",
+    fontSize: 20,
+    color: "#fff",
     fontFamily: "Ubuntu_700Bold",
   },
   footer: {
     fontSize: 12,
-    // color: "#fff",
+    color: "#fff",
     marginTop: 30,
     fontFamily: "Ubuntu_400Regular",
     textAlign: "center", // added line
