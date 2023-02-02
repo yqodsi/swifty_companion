@@ -1,10 +1,18 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, useColorScheme, Button } from "react-native";
-import { NavigationContainer,DefaultTheme, DarkTheme, } from "@react-navigation/native";
 import {
-  createNativeStackNavigator,
-  
-} from "@react-navigation/native-stack";
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+  Button,
+  Image,
+} from "react-native";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./components/Home";
 import About from "./components/About";
 import { useState } from "react";
@@ -40,14 +48,16 @@ const DorkTheme = {
     primary: "#03DAC6",
     background: "#121212",
     card: "#121212",
-    text: "red",
+    text: "white",
   },
 };
 
 export default function App() {
   const scheme = useColorScheme();
   const [data, setData] = useState("");
-  const [theme, setTheme] = useState(scheme === "dark" ? DorkTheme : LightTheme);
+  const [theme, setTheme] = useState(
+    scheme === "dark" ? DorkTheme : LightTheme
+  );
   let [fontsLoaded] = useFonts({
     Ubuntu_300Light,
     Ubuntu_300Light_Italic,
@@ -62,7 +72,15 @@ export default function App() {
   if (!fontsLoaded) {
     return <View style={styles.container} />;
   }
-
+  const Logo = ({theme}) => {
+    const logo = theme === DorkTheme ? require('./assets/42_dark.png') : require('./assets/42.png');
+    return(
+    <Image
+      style={{ width: 42, height: 42 }}
+      source={logo}
+      // resizeMode='contain'
+    />
+)};
   const toggleTheme = () => {
     setTheme(theme === DorkTheme ? DefaultTheme : DorkTheme);
   };
@@ -70,15 +88,21 @@ export default function App() {
     <MyContext.Provider value={{ data, setData }}>
       <NavigationContainer theme={theme}>
         <Stack.Navigator
-     screenOptions={({ route }) => ({
-      headerTitleAlign: "center",
-      headerRight: route.name === 'About' ? () => (
-        <Button title={theme === DorkTheme ? "Light" : "Dark"} onPress={toggleTheme} />
-      ) : null,
-      title: "69",
-    })}
+          screenOptions={({ route }) => ({
+            headerTitleAlign: "center",
+            headerRight:
+              route.name === "About"
+                ? () => (
+                    <Button
+                      title={theme === DorkTheme ? "Light" : "Dark"}
+                      onPress={toggleTheme}
+                    />
+                  )
+                : null,
+                headerTitle: (props) => <Logo theme={theme}/>
+          })}
         >
-          <Stack.Group>
+          <Stack.Group >
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="About" component={About} />
           </Stack.Group>
